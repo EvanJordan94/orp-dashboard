@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Giám sát ORP - Bể trợ dung</title>
+<link rel="stylesheet" href="./assets/style.css" />
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <h1>GIÁM SÁT ORP – BỂ TRỢ DUNG</h1>
+    <div class="header-actions">
+      <div id="datasetBadge" class="badge"></div>
+      <label class="button filebox">Nạp dữ liệu<input id="fileInput" type="file" accept=".xlsx,.xls,.csv" /></label>
+    </div>
+  </div>
+
+  <div class="summary-grid">
+    <div class="card summary-card">
+      <div class="eyebrow">ORP hiện tại</div>
+      <div class="current-value"><span id="kCurrent">—</span> <span class="unit">mV</span></div>
+      <div id="kStatus" class="status-wrap"></div>
+    </div>
+
+    <div class="card summary-card">
+      <div class="eyebrow">Tổng quan ORP</div>
+      <div class="triplet">
+        <div class="item"><div class="name">Thấp nhất</div><div class="num"><span id="kMin">—</span> <span class="unit">mV</span></div></div>
+        <div class="item"><div class="name">Trung bình</div><div class="num"><span id="kAvg">—</span> <span class="unit">mV</span></div></div>
+        <div class="item"><div class="name">Cao nhất</div><div class="num"><span id="kMax">—</span> <span class="unit">mV</span></div></div>
+      </div>
+    </div>
+
+    <div class="card summary-card">
+      <div class="eyebrow">Số mẫu</div>
+      <div class="big-num" id="kCount">—</div>
+      <div class="small" id="kCadence">—</div>
+    </div>
+
+    <div class="card summary-card">
+      <div class="eyebrow">Thời gian ghi thực</div>
+      <div class="time-main" id="kDuration">—</div>
+      <div class="small" id="kWindow">—</div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card chart-card">
+      <div class="section-title">
+        <h2>Xu hướng ORP</h2>
+        <div class="controls">
+          <button class="button rangeBtn" data-range="15">15 phút</button>
+          <button class="button rangeBtn" data-range="30">30 phút</button>
+          <button class="button rangeBtn" data-range="60">1 giờ</button>
+          <button class="button rangeBtn active" data-range="all">Tất cả</button>
+          <button id="scaleBtn" class="button scale-button">Thang Y: Chi tiết</button>
+          <button id="resetZoomBtn" class="button zoom-button">Đặt lại zoom</button>
+          <button id="fullscreenBtn" class="button zoom-button">Phóng to</button>
+        </div>
+      </div>
+      <div class="canvas-wrap">
+        <canvas id="trend"></canvas>
+        <div id="tooltip" class="tooltip"></div>
+        <div class="zoom-tools" aria-label="Điều khiển zoom">
+          <button id="zoomOutBtn" class="button" type="button" title="Thu nhỏ">−</button>
+          <button id="zoomInBtn" class="button" type="button" title="Phóng to">+</button>
+          <button id="zoomResetBtn" class="button" type="button" title="Đặt lại zoom">↺</button>
+        </div>
+      </div>
+      <div class="chart-foot">
+        <span class="line-key"><i></i>ORP</span>
+        <span id="rangeInfo"></span>
+      </div>
+    </div>
+
+    <div class="side">
+      <div class="card panel-pad">
+        <div class="section-title"><h2>Ngưỡng cài đặt</h2></div>
+        <div class="thresholds">
+          <span class="label">HIGH SET</span><span class="v"><span id="tHigh">—</span> mV</span>
+          <span class="label">HIGH OFF</span><span class="v"><span id="tHighOff">—</span> mV</span>
+          <span class="label">LOW SET</span><span class="v"><span id="tLow">—</span> mV</span>
+          <span class="label">LOW OFF</span><span class="v"><span id="tLowOff">—</span> mV</span>
+          <span class="label">HYST</span><span class="v"><span id="tHyst">—</span> mV</span>
+        </div>
+      </div>
+      <div class="card panel-pad">
+        <div class="section-title"><h2>Phân bố trạng thái</h2></div>
+        <div id="alarmSummary" class="status-list"></div>
+        <div id="timeline" class="timeline"></div>
+      </div>
+    </div>
+
+    <div class="card quality-card">
+      <div class="quality-head"><h2>Chất lượng dữ liệu</h2><span>Kiểm tra tính liên tục của dữ liệu ghi</span></div>
+      <div id="quality" class="quality-grid"></div>
+    </div>
+
+    <details class="card details-card">
+      <summary>12 mẫu gần nhất</summary>
+      <div class="details-body">
+        <div class="table-wrap"><table><thead><tr><th>Thời gian</th><th>ORP (mV)</th><th>HIGH SET</th><th>LOW SET</th><th>HIGH OFF</th><th>LOW OFF</th><th>HYST</th><th>Trạng thái</th></tr></thead><tbody id="latestRows"></tbody></table></div>
+      </div>
+    </details>
+  </div>
+  <span id="footerRange"></span>
+</div>
+<script src="./assets/app.js"></script>
+</body>
+</html>
